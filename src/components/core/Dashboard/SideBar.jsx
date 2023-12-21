@@ -20,7 +20,7 @@ export const SideBar = () => {
 
     if(profileLoading || authLoading){
         return (
-            <div className='mt-10 '>
+            <div className='grid h-[calc(100vh-3.5rem)] min-w-[220px] items-center border-r-[1px] border-r-richblack-700 bg-richblack-800 '>
                 Loading.....
             </div>
         )
@@ -30,7 +30,7 @@ export const SideBar = () => {
     <div>
         <div className='flex min-w-[222px] flex-col border-r-[1px] border-r-richblack-700
         h-[calc(100vh-3.5rem)] bg-richblack-800 py-10 '>
-            <div className='flex flex-col'>
+            <div className='flex flex-col text-richblack-300'>
                 {
                     sidebarLinks.map((link)=>{
                         if(link.type && user?.accountType !== link.type) return null;
@@ -42,9 +42,9 @@ export const SideBar = () => {
                 }
 
             </div>
-            <div className='mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-600'>
+            <div className='mx-auto mt-6 mb-6 h-[1px] w-full bg-richblack-600'>
 
-            <div className='flex flex-col'>
+            <div className='flex flex-col text-richblack-300'>
                 <SidebarLink
                     link={{name:"Settings",path:"dashboard/settings"}}
                     iconName="VscSettingsGear"
@@ -59,7 +59,7 @@ export const SideBar = () => {
                     btn2Handler: ()=> setConfirmationModal(null),
                    })
                 }}
-                className='text-sm font-medium text-richblack-300'>
+                className=' text-sm font-medium text-richblack-300 relative px-8 py-2  block'>
                 <div className='flex items-center gap-x-2'>
                     <VscSignOut className='text-lg'/>
                     <span>Logout</span>

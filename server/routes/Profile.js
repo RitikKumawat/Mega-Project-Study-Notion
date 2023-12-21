@@ -1,4 +1,6 @@
 const express = require("express");
+
+
 const { auth, isInstructor } = require("../middlewares/auth");
 const { deleteAccount, updateProfile, getAllUserDetails, instructorDashboard, updateDisplayPicture, getEnrolledCourses } = require("../controllers/Profile");
 const router = express.Router();

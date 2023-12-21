@@ -33,7 +33,6 @@ const userSchema = new mongoose.Schema({
         default:true,
     },
     additionalDetails:{
-        //referece to profile
         type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:"Profile",

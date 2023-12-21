@@ -168,7 +168,7 @@ exports.login = async (req,res)=>{
         }
         
         //check if user is registered or not 
-        const user = await User.findOne({email}); //here populate method is used to show additional details which is referenced by id
+        const user = await User.findOne({email}).populate("additionalDetails"); //here populate method is used to show additional details which is referenced by id
         
         if(!user){
             return res.status(401).json({

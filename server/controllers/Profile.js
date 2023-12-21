@@ -7,39 +7,38 @@ require("dotenv").config();
 exports.updateProfile = async (req,res) =>{
     try {
         //get data
-        const {dateOfBirth="",about="",contactNumber,gender} = req.body;
+        const {firstName="",lastName="",dateOfBirth="",about="",contactNumber="",gender=""} = req.body;
 
         //get user id
         const id = req.user.id;
-        //validate data
-        if(!contactNumber || !id){
-            return res.status(400).json({
-                success:false,
-                message:"all fields required",
-            })
-        }
+        
         //find profile
         const userDetails = await User.findById(id);
-        const profileId = userDetails.additionalDetails;
-        const profileDetails = await Profile.findById(profileId);
+        const profile = await Profile.findById({_id:userDetails.additionalDetails});
         
+        const user = await User.findByIdAndUpdate(id,{firstName, lastName, });
+        await user.save()
         //update profile
-        profileDetails.dateOfBirth = dateOfBirth;
-        profileDetails.about = about;
-        profileDetails.gender = gender;
-        profileDetails.contactNumber = contactNumber;
+        profile.dateOfBirth = dateOfBirth;
+        profile.about = about;
+        profile.contactNumber = contactNumber;
+        profile.gender = gender;
 
-        await profileDetails.save();
+        await profile.save();
         //return response
+
+        const updatedUserDetails = await User.findById(id).populate("additionalDetails").exec()
+
         return res.status(300).json({
             success:true,
             message:"Profile updated successfully",
-            profileDetails,
+            updatedUserDetails,
         })
     } catch (error) {
         return res.status(500).json({
             success:false,
             error:error.message,
+            message:"Something went wroonnnnnggg......"
         })
     }
 }
@@ -130,11 +129,12 @@ exports.updateDisplayPicture = async(req,res) =>{
         res.send({
             success:true,
             message:"Image updated successfully",
+            data:updateProfile,
         })
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: error.message,
+            message: "Could not update profile"+error.message,
           })
     }
 };
