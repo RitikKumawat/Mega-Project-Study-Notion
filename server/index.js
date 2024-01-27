@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(  //used to entertain frontend
     cors({
-        origin:"https://65b539f04d919abaa4bf54c7--stalwart-cajeta-3dd964.netlify.app/",
+        origin:"http://localhost:3000",
         credentials:true,
     })
 )
