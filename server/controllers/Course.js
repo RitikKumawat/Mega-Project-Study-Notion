@@ -102,7 +102,7 @@ exports.createCourse = async (req,res)=>{
 
 
     } catch (error) {
-      console.log("Something went wrong with create course api.....")
+      console.log("Something went wrong with create course api.....");
         return res.status(500).json({
             success:false,
             message:"SOmething wrong"+error.message,
