@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(  //used to entertain frontend
     cors({
-        origin:"https://65b54c88391a75c7ee94e8f8--jazzy-tarsier-0d25d2.netlify.app",
+        origin:"https://jazzy-tarsier-0d25d2.netlify.app",
         credentials:true,
     })
 )
