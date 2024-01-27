@@ -1,5 +1,5 @@
 // process.config("dotenv")
-const BASE_URL = "https://mega-project-study-notion-1.vercel.app/api/v1"
+const BASE_URL = "https://study-notion-backend-nz49.onrender.com"
 
 // AUTH ENDPOINTS
 export const endpoints = {
