@@ -1,5 +1,5 @@
 // process.config("dotenv")
-const BASE_URL = "https://study-notion-backend-nz49.onrender.com/api/v1"
+const BASE_URL = "https://study-notion-backend-nz49.onrender.com"
 
 // AUTH ENDPOINTS
 export const endpoints = {
