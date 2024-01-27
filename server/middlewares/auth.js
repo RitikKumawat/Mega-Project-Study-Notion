@@ -40,7 +40,8 @@ exports.auth = async (req,res,next)=>{
 
 exports.isStudent = async (req,res,next) =>{
     try {
-        if(req.user.accountType !== "Student"){
+        const userDetails = await User.findOne({email:req.user.email});
+        if(userDetails.accountType !== "Student"){
             return res.status(501).json({
                 success:false,
                 message:"This is a protected route for student only"
@@ -58,7 +59,8 @@ exports.isStudent = async (req,res,next) =>{
 //instructor
 exports.isInstructor = async(req,res,next) =>{
     try {
-        if(req.user.accountType !== "Instructor"){
+        const userDetails = await User.findOne({email:req.user.email})
+        if(userDetails.accountType !== "Instructor"){
             return res.status(501).json({
                 success:false,
                 message:"This is a protected route for Instructor only"
@@ -77,7 +79,8 @@ exports.isInstructor = async(req,res,next) =>{
 //isAdmin
 exports.isAdmin = async(req,res,next) =>{
     try {
-        if(req.user.accountType !== "Admin"){
+        const userDetails = await User.findOne({email:req.user.email})
+        if(userDetails.accountType !== "Admin"){
             return res.status(501).json({
                 success:false,
                 message:"This is a protected route for Admin only"

@@ -3,6 +3,7 @@ const Profile = require("../models/Profile");
 const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const CourseProgress = require("../models/CourseProgress");
+const { convertSecondsToDuration } = require("../utils/secToDuration");
 require("dotenv").config();
 exports.updateProfile = async (req,res) =>{
     try {
@@ -13,17 +14,19 @@ exports.updateProfile = async (req,res) =>{
         const id = req.user.id;
         
         //find profile
-        const userDetails = await User.findById(id);
-        const profile = await Profile.findById({_id:userDetails.additionalDetails});
-        
+        const userDetails = await User.findById({_id:id});
+        const profile = await Profile.findOne(userDetails?.additionalDetails._id);
+        console.log("Printing user Details/////////",userDetails.additionalDetails);
+        console.log("Printing Additional Details/////////",profile);
         const user = await User.findByIdAndUpdate(id,{firstName, lastName, });
+        // console.log(user.additionalDetails);
         await user.save()
-        //update profile
+        // update profile
         profile.dateOfBirth = dateOfBirth;
         profile.about = about;
         profile.contactNumber = contactNumber;
         profile.gender = gender;
-
+        
         await profile.save();
         //return response
 
@@ -35,7 +38,8 @@ exports.updateProfile = async (req,res) =>{
             updatedUserDetails,
         })
     } catch (error) {
-        return res.status(500).json({
+      console.log("Something happened ",error);  
+      return res.status(500).json({
             success:false,
             error:error.message,
             message:"Something went wroonnnnnggg......"
@@ -141,7 +145,7 @@ exports.updateDisplayPicture = async(req,res) =>{
 
 exports.getEnrolledCourses = async (req,res)=>{
     try {
-        const userId = req.uesr.id;
+        const userId = req.user.id;
         let userDetails = await User.findOne({
             _id:userId,
         }).populate({
@@ -187,6 +191,7 @@ exports.getEnrolledCourses = async (req,res)=>{
         }
     
         if (!userDetails) {
+          
           return res.status(400).json({
             success: false,
             message: `Could not find user with id: ${userDetails}`,
@@ -197,7 +202,8 @@ exports.getEnrolledCourses = async (req,res)=>{
           data: userDetails.courses,
         })
     } catch (error) {
-        return res.status(500).json({
+      console.log("error message .....",error);  
+      return res.status(500).json({
             success: false,
             message: error.message,
           })
@@ -211,7 +217,7 @@ exports.instructorDashboard = async (req, res) => {
       const courseDetails = await Course.find({ instructor: req.user.id })
   
       const courseData = courseDetails.map((course) => {
-        const totalStudentsEnrolled = course.studentsEnroled.length
+        const totalStudentsEnrolled = course.studentsEnrolled.length
         const totalAmountGenerated = totalStudentsEnrolled * course.price
   
         // Create a new object with the additional fields

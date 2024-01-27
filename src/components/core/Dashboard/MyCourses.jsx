@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { VscAdd } from 'react-icons/vsc'
 import { fetchInstructorCourses } from '../../../services/operations/courseDetailsAPI'
@@ -12,12 +12,12 @@ export const MyCourses = () => {
     const {token} = useSelector((state)=>state.auth)
     const navigate = useNavigate();
     const [courses,setCourses] = useState([]);
-
+    const dispatch = useDispatch();
     useEffect(()=>{
         const fetchCourses = async ()=>{
             const result = await fetchInstructorCourses(token)
             if(result){
-                setCourses(result)
+              setCourses(result);
             }
         }
         fetchCourses();

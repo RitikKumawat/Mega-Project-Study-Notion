@@ -29,9 +29,9 @@ export const CoursesTable = ({ courses, setCourses}) => {
     await deleteCourse({ courseId: courseId }, token)
     const result = await fetchInstructorCourses(token)
     if (result) {
-      setCourses(result)
+      setCourses(result);
     }
-    setConfirmationModal(null)
+    setConfirmationModal(null);
     setLoading(false)
   }
 
@@ -98,12 +98,12 @@ export const CoursesTable = ({ courses, setCourses}) => {
                         Drafted
                       </p>
                     ) : (
-                      <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
+                      <div className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
                         <div className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
                           <FaCheck size={8} />
                         </div>
                         Published
-                      </p>
+                      </div>
                     )}
                   </div>
                 </Td>

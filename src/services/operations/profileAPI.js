@@ -24,13 +24,13 @@ export function getUserDetails(token,navigate){
             if(!response.data.success){
                 throw new Error(response.data.message);
             }
-            const userImage = response.data.data.image 
-            ? response.data.data.image
+            const userImage = response.data.userDetails.image 
+            ? response.data.userDetails.image
             : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.data.firstName} ${response.data.data.lastName}`
 
             dispatch(setUser({...response.data.data,image:userImage}))
         } catch (error) {
-            dispatch(logout(navigate))
+            // dispatch(logout(navigate))
             console.log("API ERROR GET USER DETAILS......",error)
             toast.error("COULD not get user details")
         }
@@ -70,7 +70,7 @@ export async function getUserEnrolledCourses(token) {
     return result
   }
   
-  export async function getInstructorData(token) {
+export async function getInstructorData(token) {
     const toastId = toast.loading("Loading...")
     let result = []
     try {

@@ -1,29 +1,38 @@
 require("dotenv").config();
 const Course = require("../models/Course");
-const Tag = require("../models/Category");
+
 const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const Category = require("../models/Category");
-
+const Section = require("../models/Section");
+const SubSection = require("../models/SubSection");
+const CourseProgress = require("../models/CourseProgress");
+const { convertSecondsToDuration } = require("../utils/secToDuration");
 //create Course handler
 exports.createCourse = async (req,res)=>{
     try {
         // fetch data
-        const {courseName, courseDescription, whatYouWillLearn,price,category,tag} = req.body;
+        const userId = req.user.id;
+        let {courseName, courseDescription, whatYouWillLearn,price,tag,category,status,instructions} = req.body;
 
         //get thumbnail
+        
         const thumbnail = req.files.thumbnailImage;
-
-        //validation
-        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail ||!tag){
+        // const tag = JSON.parse(_tag)
+        // const instructions = JSON.parse(_instructions);
+        // validation
+        if(!courseName || !courseDescription  || !price || !category ){
             return res.status(400).json({
                 success:false,
                 messag:"All fields are required",
             })
         }
+        if(!status || status === undefined){
+          status = "Draft"
+        }
         //fetch instructor details
-        const userId = req.user.id;
-        const instructorDetails = await User.findById(userId);
+       
+        const instructorDetails = await User.findById(userId,{accountType:"Instructor"});
         console.log("Instructor Details: ",instructorDetails);
 
         if(!instructorDetails){
@@ -34,7 +43,7 @@ exports.createCourse = async (req,res)=>{
         }
         //check given tag valid or not 
 
-        const categoryDetails = await Tag.findById(category);
+        const categoryDetails = await Category.findById(category);
 
         if(!categoryDetails){
             return res.status(404).json({
@@ -54,9 +63,11 @@ exports.createCourse = async (req,res)=>{
             instructor:instructorDetails._id,
             whatYouWillLearn:whatYouWillLearn,
             price,
-            category:categoryDetails._id,
             tag,
+            category:categoryDetails._id,
             thumbnail:thumbnailImage.secure_url,
+            status:status,
+            instructions,
         })
 
         //add the new user to the user schema 
@@ -91,9 +102,10 @@ exports.createCourse = async (req,res)=>{
 
 
     } catch (error) {
+      console.log("Something went wrong with create course api.....")
         return res.status(500).json({
             success:false,
-            message:error.message,
+            message:"SOmething wrong"+error.message,
         })  
     }
 }
@@ -238,7 +250,7 @@ exports.deleteCourse = async (req, res) => {
       }
   
       // Unenroll students from the course
-      const studentsEnrolled = course.studentsEnroled
+      const studentsEnrolled = course.studentsEnrolled
       for (const studentId of studentsEnrolled) {
         await User.findByIdAndUpdate(studentId, {
           $pull: { courses: courseId },

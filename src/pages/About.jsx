@@ -9,6 +9,7 @@ import StatsComponent from '../components/core/AboutPage/StatsComponent'
 import { LearningGrid } from '../components/core/AboutPage/LearningGrid'
 import { ContactFormSection } from '../components/core/AboutPage/ContactFormSection'
 import { Footer } from '../components/Common/Footer'
+import { ReviewSlider } from '../components/Common/ReviewSlider'
 
 export const About = () => {
   return (
@@ -94,6 +95,7 @@ export const About = () => {
             <div>
                 Reviews from other learners
                 {/* Review Slider */}
+                <ReviewSlider/>
             </div>
         </section>
         </div>
