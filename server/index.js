@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(  //used to entertain frontend
     cors({
-        origin:"https://jazzy-tarsier-0d25d2.netlify.app",
+        origin:"http://localhost:3000",
         credentials:true,
     })
 )
@@ -37,11 +37,11 @@ app.use(
 
 cloudinaryConnect();
 
-app.use("/auth",userRoutes);
-app.use("/profile",profileRoutes);
-app.use("/course",courseRoutes);
-app.use("/payment",paymentRoutes);
-app.use("/contact",contactRoutes);
+app.use("/api/v1/auth",userRoutes);
+app.use("/api/v1/profile",profileRoutes);
+app.use("/api/v1/course",courseRoutes);
+app.use("/api/v1/payment",paymentRoutes);
+app.use("/api/v1/contact",contactRoutes);
 
 //default route 
 app.get("/",(req,res)=>{
