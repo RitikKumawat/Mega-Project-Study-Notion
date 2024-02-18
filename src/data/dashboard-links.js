@@ -36,7 +36,7 @@ export const sidebarLinks = [
     icon: "VscMortarBoard",
   },
   {
-    id: 7,
+    id: 6,
     name: "Cart",
     path: "/dashboard/cart",
     type: ACCOUNT_TYPE.STUDENT,

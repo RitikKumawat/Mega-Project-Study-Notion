@@ -32,7 +32,7 @@ exports.updateProfile = async (req,res) =>{
 
         const updatedUserDetails = await User.findById(id).populate("additionalDetails").exec()
 
-        return res.status(300).json({
+        return res.status(200).json({
             success:true,
             message:"Profile updated successfully",
             updatedUserDetails,
